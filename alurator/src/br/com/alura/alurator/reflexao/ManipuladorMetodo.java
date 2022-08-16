@@ -12,7 +12,7 @@ public class ManipuladorMetodo {
 	private Object instancia;
 	private Method metodo;
 	private Map<String, Object> params;
-    private BiFunction<Method, InvocationTargetException, Object> tratamentoExcecao;
+	private BiFunction<Method, InvocationTargetException, Object> tratamentoExcecao;
 
 
 	public ManipuladorMetodo(Object instancia, Method metodo, Map<String, Object> params) {

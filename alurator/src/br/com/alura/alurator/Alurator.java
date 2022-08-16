@@ -2,6 +2,7 @@ package br.com.alura.alurator;
 
 import java.util.Map;
 
+import br.com.alura.alurator.conversor.ConversorXML;
 import br.com.alura.alurator.protocolo.Request;
 import br.com.alura.alurator.reflexao.Reflexao;
 
@@ -24,9 +25,15 @@ public class Alurator {
 				.refleteClasse(pacoteBase + nomeControle)
 				.criaInstancia()
 				.getMetodo(nomeMetodo, params)
+				.comTratamentoDeExcecao((metodo, ex) -> {
+					System.out.println("Erro no método " + metodo.getName() + " da classe" + metodo.getDeclaringClass().getName() + ".\n\n");
+					throw new RuntimeException("Erro no método");
+				})
 				.invoca();
 		
 		System.out.println(retorno);
+
+		retorno = new ConversorXML().converte(retorno);
 		
 		return retorno;
 	}
