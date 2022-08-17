@@ -21,24 +21,27 @@ public class Alurator {
 	public Object executa(String url) {
 		Request request = new Request(url);
 		Map<String, Object> params = request.getQueryParams();
-		
+
 		String nomeControle = request.getNomeControle();
 		String nomeMetodo = request.getNomeMetodo();
 
 		Class<?> classeControle = new Reflexao().getClasse(pacoteBase + nomeControle);
 		Object instanciaControle = container.getInstancia(classeControle);
-		Object retorno = new ManipuladorObjeto(instanciaControle)
-				.getMetodo(nomeMetodo, params)
+		Object retorno = new ManipuladorObjeto(instanciaControle).getMetodo(nomeMetodo, params)
 				.comTratamentoDeExcecao((metodo, ex) -> {
-					System.out.println("Erro no método " + metodo.getName() + " da classe" + metodo.getDeclaringClass().getName() + ".\n\n");
+					System.out.println("Erro no método " + metodo.getName() + " da classe"
+							+ metodo.getDeclaringClass().getName() + ".\n\n");
 					throw new RuntimeException("Erro no método");
-				})
-				.invoca();
-		
+				}).invoca();
+
 		System.out.println(retorno);
 
 		retorno = new ConversorXML().converte(retorno);
-		
+
 		return retorno;
+	}
+
+	public <T, K extends T> void registra(Class<T> tipoFonte, Class<K> tipoDestino) {
+		container.registra(tipoFonte, tipoDestino);
 	}
 }
